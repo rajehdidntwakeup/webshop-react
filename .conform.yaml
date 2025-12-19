@@ -1,0 +1,41 @@
+---
+policies:
+  - type: commit
+    spec:
+      header:
+        length: 100
+        imperative: true
+        case: lower
+        invalidLastCharacters: .
+      body:
+        required: false
+      dco: false
+      gpg: false
+      spellcheck:
+        locale: US
+      maximumOfOneCommit: false
+      conventional:
+        types:
+          - feat
+          - fix
+          - refactor
+          - perf
+          - chore
+          - test
+          - docs
+          - build
+          - ci
+        scopes:
+          - components
+          - context
+          - styles
+          - ui
+          - app
+          - config
+          - deps
+          - ci
+          - readme
+          - license
+          - core
+          - utils
+        descriptionLength: 100
