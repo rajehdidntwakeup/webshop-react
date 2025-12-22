@@ -4,7 +4,6 @@ import {useState} from 'react';
 import {toast} from 'sonner';
 import {useOrders} from '@/entities/order/model/OrderContext';
 import {useProducts} from '@/entities/product/model/ProductsContext';
-import {ENV} from "@/shared/config/env";
 import {CreateOrderDto} from "@/entities/order/model/CreateOrderDto"
 import {CreateOrderItem} from "@/entities/order/model/CreateOrderItem"
 

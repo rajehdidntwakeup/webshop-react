@@ -3,12 +3,12 @@ import {useNavigate} from 'react-router-dom';
 import React, {useState} from 'react';
 import {useProducts} from '@/entities/product/model/ProductsContext';
 import {toast} from 'sonner';
-import {ENV} from "@/shared/config/env";
 import {Item} from "@/entities/product/model/Item";
+
 
 export function CreateItemPage() {
     const navigate = useNavigate();
-    const {refreshProducts} = useProducts();
+    const {addProduct} = useProducts();
     const [formData, setFormData] = useState({
         name: '',
         stock: '',
@@ -41,19 +41,11 @@ export function CreateItemPage() {
         } as const;
 
         try {
-            const response = await fetch(`${ENV.INVENTORY_API_URL}`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(newItem),
-            });
-            if (!response.ok) {
-                throw new Error('Failed to create product');
-            }
+            await addProduct(newItem);
             console.log('Product created successfully!');
             toast.success('Product created successfully!', {
                 description: `${formData.name} has been added to the catalog.`,
             });
-            await refreshProducts();
         } catch (err) {
             console.error('Error creating product:', err);
             toast.error('Error creating product');

@@ -3,6 +3,7 @@ import {ENV} from "@/shared/config/env";
 import {Order} from "./Order";
 import {CreateOrderDto} from "./CreateOrderDto";
 
+const ORDER_URL = ENV.ORDER_API_URL;
 
 interface OrderContextType {
     orders: Order[];
@@ -23,7 +24,7 @@ export function OrderProvider({children}: { children?: ReactNode }) {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch(`${ENV.ORDER_API_URL}`, {
+            const response = await fetch(`${ORDER_URL}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -48,7 +49,7 @@ export function OrderProvider({children}: { children?: ReactNode }) {
     const addOrder = useCallback(async (newOrder: CreateOrderDto) => {
         setError(null);
         try {
-            const response = await fetch(`${ENV.ORDER_API_URL}`, {
+            const response = await fetch(`${ORDER_URL}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
