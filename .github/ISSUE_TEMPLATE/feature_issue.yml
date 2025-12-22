@@ -1,7 +1,7 @@
 name: Feature Issue
 description: Suggest a new feature with clear acceptance criteria
 title: "[Feature]: "
-labels: [enhancement]
+labels: [ enhancement ]
 body:
   - type: input
     id: title
