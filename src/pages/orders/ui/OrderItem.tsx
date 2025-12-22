@@ -1,10 +1,22 @@
 import {Package} from 'lucide-react';
 import {Order} from '@/entities/order/model/Order';
 
+/**
+ * Props for the OrderItem component.
+ *
+ * @interface OrderItemProps
+ */
 interface OrderItemProps {
+    /** The order object to display. */
     order: Order;
 }
 
+/**
+ * OrderItem component renders a single order's details including ID, items, total price, and status.
+ *
+ * @component
+ * @param {OrderItemProps} props - The component props.
+ */
 export function OrderItem({order}: OrderItemProps) {
     return (
         <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-all duration-300">

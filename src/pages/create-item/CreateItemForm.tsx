@@ -1,14 +1,30 @@
 import React from 'react';
 import { Package } from 'lucide-react';
-import { CreateItemFormData } from './useCreateItemForm';
+import { CreateItemFormData } from './CreateItemFormData';
 
+/**
+ * Interface for the CreateItemForm component props.
+ */
 interface CreateItemFormProps {
+    /** The current state of the form data. */
     formData: CreateItemFormData;
+    /** Function to update a specific field in the form data. */
     updateField: (field: keyof CreateItemFormData, value: string) => void;
+    /** Form submission handler. */
     handleSubmit: (e: React.FormEvent) => void;
+    /** Indicates if the form is currently being submitted. */
     isSubmitting: boolean;
 }
 
+/**
+ * A form component for creating a new product item.
+ * 
+ * This component renders a styled form with fields for product name, stock quantity,
+ * price, and description. It uses glassmorphism design elements.
+ *
+ * @param props - The component props.
+ * @returns A JSX element representing the creation form.
+ */
 export function CreateItemForm({ formData, updateField, handleSubmit, isSubmitting }: CreateItemFormProps) {
     return (
         <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-8">
@@ -57,6 +73,8 @@ export function CreateItemForm({ formData, updateField, handleSubmit, isSubmitti
                         value={formData.price}
                         onChange={(e) => {
                             const val = e.target.value;
+                            // Regex validation for decimal price (e.g., 10.99)
+                            // Allows empty string or digits with up to 2 decimal places
                             if (val === '' || /^\d+\.?\d{0,2}$/.test(val)) {
                                 updateField('price', val);
                             }

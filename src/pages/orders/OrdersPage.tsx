@@ -7,9 +7,22 @@ import {OrdersEmpty} from "./ui/OrdersEmpty";
 import {OrdersList} from "./ui/OrdersList";
 import {AnimatedBackground} from "./ui/AnimatedBackground";
 
+/**
+ * OrdersPage component displays a list of all customer orders.
+ * It manages the order fetching lifecycle and handles different UI states:
+ * loading, error, empty, and data display.
+ *
+ * @component
+ */
 export function OrdersPage() {
+    /**
+     * Retrieves order data and control functions from the OrderContext.
+     */
     const {orders, fetchOrders, isLoading, error} = useOrders();
 
+    /**
+     * Fetches orders on component mount.
+     */
     useEffect(() => {
         fetchOrders();
     }, [fetchOrders]);

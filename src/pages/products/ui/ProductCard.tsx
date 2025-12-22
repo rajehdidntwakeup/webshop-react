@@ -1,13 +1,33 @@
 import {Check, ShoppingBag} from 'lucide-react';
 import {Product} from '@/entities/product/model/Product';
 
+/**
+ * Props for the ProductCard component.
+ *
+ * @interface ProductCardProps
+ * @property {Product} product - The product object to display.
+ * @property {boolean} isOrdered - Whether the product has already been ordered in the current session.
+ * @property {Function} onOrder - Callback function to initiate an order for this product.
+ */
 interface ProductCardProps {
     product: Product;
     isOrdered: boolean;
     onOrder: (productId: number, productName: string) => void;
 }
 
+/**
+ * ProductCard component displays detailed information about a single product.
+ * It shows the product name, description, price, and current stock.
+ * Users can place an order directly from the card unless it is out of stock or already ordered.
+ *
+ * @component
+ * @param {ProductCardProps} props - The component props.
+ * @returns {JSX.Element} The rendered product card.
+ */
 export function ProductCard({product, isOrdered, onOrder}: ProductCardProps) {
+    /**
+     * Flag indicating if the product is currently unavailable due to zero stock.
+     */
     const isOutOfStock = product.stock === 0;
 
     return (

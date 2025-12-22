@@ -1,10 +1,23 @@
 import {Package} from 'lucide-react';
 
+/**
+ * Props for the OrdersError component.
+ *
+ * @interface OrdersErrorProps
+ */
 interface OrdersErrorProps {
+    /** The error message to display. */
     error: string;
+    /** Callback function to retry fetching orders. */
     onRetry: () => void;
 }
 
+/**
+ * OrdersError component is shown when an error occurs during order fetching.
+ *
+ * @component
+ * @param {OrdersErrorProps} props - The component props.
+ */
 export function OrdersError({error, onRetry}: OrdersErrorProps) {
     return (
         <div className="backdrop-blur-xl bg-white/10 border border-red-500/20 rounded-3xl p-12 text-center">

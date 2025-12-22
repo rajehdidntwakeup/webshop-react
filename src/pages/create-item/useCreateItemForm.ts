@@ -3,13 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useProducts } from '@/entities/product/model/ProductsContext';
 import { Item } from "@/entities/product/model/Item";
-
-export interface CreateItemFormData {
-    name: string;
-    stock: string;
-    price: string;
-    description: string;
-}
+import { CreateItemFormData } from './CreateItemFormData';
 
 export function useCreateItemForm() {
     const navigate = useNavigate();

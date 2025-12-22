@@ -1,7 +1,17 @@
 import {ArrowLeft, ShoppingBag} from 'lucide-react';
 import {useNavigate} from 'react-router-dom';
 
+/**
+ * ProductsHeader component provides the top section of the products page.
+ * It includes a back button to the home page, an icon, a title, and a brief description of the collection.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered products header.
+ */
 export function ProductsHeader() {
+    /**
+     * Hook to handle programmatic navigation.
+     */
     const navigate = useNavigate();
 
     return (

@@ -1,3 +1,9 @@
+/**
+ * AnimatedBackground component provides a decorative background with floating, blurred circles.
+ * It uses CSS animations to create a pulsing effect.
+ *
+ * @component
+ */
 export function AnimatedBackground() {
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">

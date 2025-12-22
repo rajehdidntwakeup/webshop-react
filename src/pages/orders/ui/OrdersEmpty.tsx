@@ -1,7 +1,16 @@
 import {ShoppingBag} from 'lucide-react';
 import {useNavigate} from 'react-router-dom';
 
+/**
+ * OrdersEmpty component is displayed when there are no orders to show.
+ * It provides a call-to-action button to navigate back to the product catalog.
+ *
+ * @component
+ */
 export function OrdersEmpty() {
+    /**
+     * Hook to handle programmatic navigation.
+     */
     const navigate = useNavigate();
 
     return (

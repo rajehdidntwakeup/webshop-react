@@ -1,11 +1,27 @@
 import {ArrowLeft, Package} from 'lucide-react';
 import {useNavigate} from 'react-router-dom';
 
+/**
+ * Props for the OrdersHeader component.
+ *
+ * @interface OrdersHeaderProps
+ */
 interface OrdersHeaderProps {
+    /** The total number of orders. */
     ordersCount: number;
 }
 
+/**
+ * OrdersHeader component displays the page title and the total number of orders.
+ * It also includes a back button to navigate to the home page.
+ *
+ * @component
+ * @param {OrdersHeaderProps} props - The component props.
+ */
 export function OrdersHeader({ordersCount}: OrdersHeaderProps) {
+    /**
+     * Hook to handle programmatic navigation.
+     */
     const navigate = useNavigate();
 
     return (

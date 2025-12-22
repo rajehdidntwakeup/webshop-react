@@ -4,7 +4,16 @@ import { CreateOrderDto } from "../model/CreateOrderDto";
 
 const ORDER_URL = ENV.ORDER_API_URL;
 
+/**
+ * API service for managing orders.
+ */
 export const orderApi = {
+    /**
+     * Fetches all orders from the server.
+     * 
+     * @returns {Promise<Order[]>} A promise that resolves to an array of orders.
+     * @throws {Error} If the network request fails or the server returns a non-ok status.
+     */
     async fetchOrders(): Promise<Order[]> {
         const response = await fetch(`${ORDER_URL}`, {
             method: 'GET',
@@ -22,6 +31,13 @@ export const orderApi = {
         }));
     },
 
+    /**
+     * Creates a new order.
+     * 
+     * @param {CreateOrderDto} newOrder - The order data to be created.
+     * @returns {Promise<void>} A promise that resolves when the order is successfully created.
+     * @throws {Error} If the network request fails or the server returns a non-ok status.
+     */
     async addOrder(newOrder: CreateOrderDto): Promise<void> {
         const response = await fetch(`${ORDER_URL}`, {
             method: 'POST',

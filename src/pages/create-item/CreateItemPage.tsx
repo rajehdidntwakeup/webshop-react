@@ -5,8 +5,26 @@ import {useCreateItemForm} from './useCreateItemForm';
 import {CreateItemForm} from './CreateItemForm';
 
 
+/**
+ * CreateItemPage component.
+ * 
+ * This page provides a user interface for creating a new product item in the webshop.
+ * It features an animated background, a header with a back-to-home navigation button,
+ * and a form for entering product details.
+ * 
+ * @component
+ */
 export function CreateItemPage() {
+    /** Hook for programmatic navigation */
     const navigate = useNavigate();
+
+    /** 
+     * Destructured values from the custom useCreateItemForm hook.
+     * formData: The current state of the form fields.
+     * updateField: Function to update specific form fields.
+     * handleSubmit: Function to handle form submission.
+     * isSubmitting: Boolean indicating if the form is currently being submitted.
+     */
     const {formData, updateField, handleSubmit, isSubmitting} = useCreateItemForm();
 
     return (
