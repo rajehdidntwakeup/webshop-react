@@ -71,7 +71,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/attest-build-provenance@cbd3144ef98276f5ef5b871c828694073359d996 # v2.2.0
+      - uses: actions/attest-build-provenance@v2
         with:
           subject-path: |
             sbom.json
