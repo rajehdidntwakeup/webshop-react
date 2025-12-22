@@ -1,4 +1,5 @@
 name: verify.yml
+
 on:
   push:
     branches: [ main ]
@@ -7,9 +8,8 @@ on:
 
 jobs:
   conform:
-    runs-on: ubuntu-latest
     name: Conform
-
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -19,35 +19,82 @@ jobs:
         with:
           token: ${{ secrets.CONFORM }}
 
+
   test:
+    name: Tests
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        node-version: [ "24" ]
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
+          node-version: ${{ matrix.node-version }}
+          cache: npm
       - run: npm test
 
-  eslint:
+
+  lint:
+    name: ESLint
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        node-version: [ "24" ]
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
+          node-version: ${{ matrix.node-version }}
+          cache: npm
       - run: npm run lint
 
-  build:
+
+  audit:
+    name: Security audit
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 12
+      matrix:
+        node-version: [ "24" ]
     steps:
+      - uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm audit --audit-level=high
+
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - lint
+      - audit
+    strategy:
+      max-parallel: 4
+      matrix:
+        node-version: [ "24" ]
+    steps:
+      - uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
+      - with:
+          egress-policy: audit
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
       - run: npm run build
