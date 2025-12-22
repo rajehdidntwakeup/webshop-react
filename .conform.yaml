@@ -38,4 +38,5 @@ policies:
           - license
           - core
           - utils
+          - release
         descriptionLength: 100
