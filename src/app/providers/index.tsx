@@ -1,7 +1,8 @@
 import {ReactNode} from 'react';
 import {BrowserRouter} from 'react-router-dom';
-import {ProductsProvider} from '@/entities/product/model/ProductsContext';
+
 import {OrderProvider} from '@/entities/order/model/OrderContext';
+import {ProductsProvider} from '@/entities/product/model/ProductsContext';
 
 interface ProvidersProps {
     children: ReactNode;

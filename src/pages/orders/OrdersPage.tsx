@@ -1,11 +1,13 @@
-import {useOrders} from '@/entities/order/model/OrderContext';
 import {useEffect} from "react";
-import {OrdersHeader} from "./ui/OrdersHeader";
-import {OrdersLoading} from "./ui/OrdersLoading";
-import {OrdersError} from "./ui/OrdersError";
-import {OrdersEmpty} from "./ui/OrdersEmpty";
-import {OrdersList} from "./ui/OrdersList";
+
+import {useOrders} from '@/entities/order/model/OrderContext';
+
 import {AnimatedBackground} from "./ui/AnimatedBackground";
+import {OrdersEmpty} from "./ui/OrdersEmpty";
+import {OrdersError} from "./ui/OrdersError";
+import {OrdersHeader} from "./ui/OrdersHeader";
+import {OrdersList} from "./ui/OrdersList";
+import {OrdersLoading} from "./ui/OrdersLoading";
 
 /**
  * OrdersPage component displays a list of all customer orders.

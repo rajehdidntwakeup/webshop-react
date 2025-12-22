@@ -1,4 +1,5 @@
 import {ENV} from "@/shared/config/env";
+
 import {Product} from "../model/Product";
 
 const INVENTORY_URL = ENV.INVENTORY_API_URL;

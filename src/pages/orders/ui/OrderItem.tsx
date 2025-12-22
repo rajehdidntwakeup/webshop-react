@@ -1,4 +1,5 @@
 import {Package} from 'lucide-react';
+
 import {Order} from '@/entities/order/model/Order';
 
 /**

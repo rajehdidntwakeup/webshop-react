@@ -1,11 +1,14 @@
-import {HomePage} from '@/pages/home/HomePage';
-import {DocsPage} from '@/pages/docs/DocsPage';
-import {ProductsPage} from '@/pages/products/ProductsPage';
-import {OrdersPage} from '@/pages/orders/OrdersPage';
-import {CreateItemPage} from '@/pages/create-item/CreateItemPage';
 import {Route, Routes} from 'react-router-dom';
-import {Providers} from './providers';
+
+import {CreateItemPage} from '@/pages/create-item/CreateItemPage';
+import {DocsPage} from '@/pages/docs/DocsPage';
+import {HomePage} from '@/pages/home/HomePage';
+import {OrdersPage} from '@/pages/orders/OrdersPage';
+import {ProductsPage} from '@/pages/products/ProductsPage';
+
+
 import {BaseLayout} from './layouts/BaseLayout';
+import {Providers} from './providers';
 
 export default function App() {
     return (

@@ -1,4 +1,4 @@
-import {OrderItem} from "@/app/features/order/Order";
+import {OrderItem} from "./OrderItem";
 
 /**
  * Data Transfer Object for creating a new order.

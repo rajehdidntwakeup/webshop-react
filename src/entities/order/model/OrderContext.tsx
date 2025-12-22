@@ -1,7 +1,9 @@
 import {createContext, ReactNode, useCallback, useContext, useState} from 'react';
-import {Order} from "./Order";
-import {CreateOrderDto} from "./CreateOrderDto";
+
 import {orderApi} from "../api/orderApi";
+
+import {CreateOrderDto} from "./CreateOrderDto";
+import {Order} from "./Order";
 
 /**
  * Type definition for the Order context value.

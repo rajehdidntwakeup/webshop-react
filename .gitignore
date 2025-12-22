@@ -53,6 +53,7 @@ vite.config.ts.timestamp-*
 # Linting and formatting
 .eslintcache
 .prettiercache
+.output.txt
 
 # OS-specific files
 .DS_Store

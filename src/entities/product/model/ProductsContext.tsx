@@ -1,6 +1,8 @@
 import {createContext, ReactNode, useCallback, useContext, useEffect, useState} from 'react';
-import {Product} from "./Product";
+
 import {productApi} from "../api/productApi";
+
+import {Product} from "./Product";
 
 /**
  * Context for managing products within the application.

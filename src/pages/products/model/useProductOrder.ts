@@ -1,9 +1,10 @@
 import {useState} from 'react';
 import {toast} from 'sonner';
-import {useOrders} from '@/entities/order/model/OrderContext';
-import {useProducts} from '@/entities/product/model/ProductsContext';
+
 import {CreateOrderDto} from '@/entities/order/model/CreateOrderDto';
 import {CreateOrderItem} from '@/entities/order/model/CreateOrderItem';
+import {useOrders} from '@/entities/order/model/OrderContext';
+import {useProducts} from '@/entities/product/model/ProductsContext';
 
 /**
  * Custom hook to manage the product ordering process.

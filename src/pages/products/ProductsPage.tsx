@@ -1,7 +1,8 @@
 import {useProducts} from '@/entities/product/model/ProductsContext';
-import {ProductsHeader} from './ui/ProductsHeader';
-import {useProductOrder} from './model/useProductOrder';
 import {AnimatedBackground} from '@/pages/orders/ui/AnimatedBackground';
+
+import {useProductOrder} from './model/useProductOrder';
+import {ProductsHeader} from './ui/ProductsHeader';
 import {ProductsList} from './ui/ProductsList';
 
 /**

@@ -1,4 +1,5 @@
 import {Product} from '@/entities/product/model/Product';
+
 import {ProductCard} from './ProductCard';
 
 /**

@@ -1,4 +1,5 @@
 import {Check, ShoppingBag} from 'lucide-react';
+
 import {Product} from '@/entities/product/model/Product';
 
 /**
