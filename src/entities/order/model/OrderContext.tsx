@@ -1,9 +1,7 @@
 import {createContext, ReactNode, useCallback, useContext, useState} from 'react';
-import {ENV} from "@/shared/config/env";
 import {Order} from "./Order";
 import {CreateOrderDto} from "./CreateOrderDto";
-
-const ORDER_URL = ENV.ORDER_API_URL;
+import {orderApi} from "../api/orderApi";
 
 interface OrderContextType {
     orders: Order[];
@@ -24,19 +22,7 @@ export function OrderProvider({children}: { children?: ReactNode }) {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await fetch(`${ORDER_URL}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (!response.ok) {
-                throw new Error('Failed to fetch orders');
-            }
-            const mappedOrders: Order[] = (await response.json()).map((order: Order): Order => ({
-                ...order,
-                items: order.items || []
-            }));
+            const mappedOrders = await orderApi.fetchOrders();
             setOrders(mappedOrders);
         } catch (err) {
             console.error('Error fetching orders:', err);
@@ -49,16 +35,7 @@ export function OrderProvider({children}: { children?: ReactNode }) {
     const addOrder = useCallback(async (newOrder: CreateOrderDto) => {
         setError(null);
         try {
-            const response = await fetch(`${ORDER_URL}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newOrder)
-            });
-            if (!response.ok) {
-                throw new Error('Failed to add order');
-            }
+            await orderApi.addOrder(newOrder);
             await fetchOrders();
         } catch (err) {
             console.error('Error adding order:', err);

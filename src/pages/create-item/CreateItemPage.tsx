@@ -1,64 +1,13 @@
-import {ArrowLeft, Package, Plus} from 'lucide-react';
+import {ArrowLeft, Plus} from 'lucide-react';
 import {useNavigate} from 'react-router-dom';
-import React, {useState} from 'react';
-import {useProducts} from '@/entities/product/model/ProductsContext';
-import {toast} from 'sonner';
-import {Item} from "@/entities/product/model/Item";
+import React from 'react';
+import {useCreateItemForm} from './useCreateItemForm';
+import {CreateItemForm} from './CreateItemForm';
 
 
 export function CreateItemPage() {
     const navigate = useNavigate();
-    const {addProduct} = useProducts();
-    const [formData, setFormData] = useState({
-        name: '',
-        stock: '',
-        price: '',
-        description: '',
-    });
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!formData.name || !formData.stock || !formData.price || !formData.description) {
-            toast.error('Please fill in all fields');
-            return;
-        }
-
-        // Validate price: numbers or decimal with up to 2 places
-        const priceRegex = /^\d+(\.\d{1,2})?$/;
-        if (!priceRegex.test(formData.price)) {
-            toast.error('Invalid price format', {
-                description: 'Please enter a number (e.g., 299 or 299.99)',
-            });
-            return;
-        }
-
-        const newItem: Item = {
-            name: formData.name,
-            stock: parseInt(formData.stock),
-            price: parseFloat(formData.price),
-            description: formData.description,
-        } as const;
-
-        try {
-            await addProduct(newItem);
-            console.log('Product created successfully!');
-            toast.success('Product created successfully!', {
-                description: `${formData.name} has been added to the catalog.`,
-            });
-        } catch (err) {
-            console.error('Error creating product:', err);
-            toast.error('Error creating product');
-        }
-
-        // Reset form
-        setFormData({name: '', stock: '', price: '', description: ''});
-
-        // Navigate to the products page after a short delay
-        setTimeout(() => {
-            navigate('/products');
-        }, 1500);
-    };
+    const {formData, updateField, handleSubmit, isSubmitting} = useCreateItemForm();
 
     return (
         <div className="relative min-h-screen px-4 py-12">
@@ -98,84 +47,12 @@ export function CreateItemPage() {
                 </div>
 
                 {/* Form */}
-                <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-8">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Product Name */}
-                        <div>
-                            <label htmlFor="name" className="block text-white mb-2">
-                                Product Name
-                            </label>
-                            <input
-                                type="text"
-                                id="name"
-                                value={formData.name}
-                                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                placeholder="e.g., Premium Leather Bag"
-                                className="w-full backdrop-blur-md bg-white/20 border border-white/30 text-white placeholder-white/50 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
-                            />
-                        </div>
-
-                        {/* Stock */}
-                        <div>
-                            <label htmlFor="stock" className="block text-white mb-2">
-                                Stock Quantity
-                            </label>
-                            <input
-                                type="number"
-                                id="stock"
-                                value={formData.stock}
-                                onChange={(e) => setFormData({...formData, stock: e.target.value})}
-                                placeholder="e.g., 50"
-                                min="0"
-                                className="w-full backdrop-blur-md bg-white/20 border border-white/30 text-white placeholder-white/50 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
-                            />
-                        </div>
-
-                        {/* Price */}
-                        <div>
-                            <label htmlFor="price" className="block text-white mb-2">
-                                Price
-                            </label>
-                            <input
-                                type="text"
-                                id="price"
-                                value={formData.price}
-                                onChange={(e) => {
-                                    const val = e.target.value;
-                                    if (val === '' || /^\d+\.?\d{0,2}$/.test(val)) {
-                                        setFormData({...formData, price: val});
-                                    }
-                                }}
-                                placeholder="e.g., 299.99"
-                                className="w-full backdrop-blur-md bg-white/20 border border-white/30 text-white placeholder-white/50 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
-                            />
-                        </div>
-
-                        {/* Description */}
-                        <div>
-                            <label htmlFor="description" className="block text-white mb-2">
-                                Description
-                            </label>
-                            <textarea
-                                id="description"
-                                value={formData.description}
-                                onChange={(e) => setFormData({...formData, description: e.target.value})}
-                                placeholder="e.g., Handcrafted leather bag with premium materials..."
-                                rows={4}
-                                className="w-full backdrop-blur-md bg-white/20 border border-white/30 text-white placeholder-white/50 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all resize-none"
-                            />
-                        </div>
-
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            className="w-full backdrop-blur-md bg-white/20 hover:bg-white/30 border border-white/30 text-white py-4 rounded-xl transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
-                        >
-                            <Package className="w-5 h-5"/>
-                            Create Product
-                        </button>
-                    </form>
-                </div>
+                <CreateItemForm
+                    formData={formData}
+                    updateField={updateField}
+                    handleSubmit={handleSubmit}
+                    isSubmitting={isSubmitting}
+                />
             </div>
         </div>
     );
