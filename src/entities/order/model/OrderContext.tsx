@@ -33,7 +33,7 @@ export function OrderProvider({children}: { children?: ReactNode }) {
             if (!response.ok) {
                 throw new Error('Failed to fetch orders');
             }
-            const mappedOrders: Order[] = (await response.json()).map((order: any) => ({
+            const mappedOrders: Order[] = (await response.json()).map((order: Order): Order => ({
                 ...order,
                 items: order.items || []
             }));
