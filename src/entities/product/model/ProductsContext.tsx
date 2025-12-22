@@ -29,7 +29,7 @@ interface ProductsContextType {
 /**
  * Context object for products.
  */
-const ProductsContext = createContext<ProductsContextType | undefined>(undefined);
+export const ProductsContext = createContext<ProductsContextType | undefined>(undefined);
 
 /**
  * Provider component that manages product state and provides product-related actions.

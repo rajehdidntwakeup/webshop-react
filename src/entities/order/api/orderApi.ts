@@ -27,7 +27,7 @@ export const orderApi = {
         const data = await response.json();
         return data.map((order: Order): Order => ({
             ...order,
-            items: order.items || []
+            orderItems: order.orderItems || []
         }));
     },
 
