@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.1](https://github.com/rajehdidntwakeup/webshop-react/compare/v1.0.0...v1.0.1) (2025-12-22)
+
+
+### Miscellaneous Chores
+
+* **release:** configure automated release process with release-please ([9f14f12](https://github.com/rajehdidntwakeup/webshop-react/commit/9f14f120f1ed576af3dddabbc8934a52ff81b6f0))
+* **release:** configure automated release process with release-please ([1c64521](https://github.com/rajehdidntwakeup/webshop-react/commit/1c645210a9172bf666fa312fe780d1fde726193f))
+* **release:** release 1.0.0 ([b41b277](https://github.com/rajehdidntwakeup/webshop-react/commit/b41b277e11612d5bd6559e5a79f15836e1356a36))
+* **release:** release 1.0.0 ([135eebe](https://github.com/rajehdidntwakeup/webshop-react/commit/135eebe0cb210ab2198c6861c20cd7a5091472ac))
+* **release:** release 1.0.1 ([e62af55](https://github.com/rajehdidntwakeup/webshop-react/commit/e62af5560529cfea0ba5535c94b39b625d97f704))
+* **release:** release 1.0.1 ([187dce7](https://github.com/rajehdidntwakeup/webshop-react/commit/187dce76c9f8bcb6d25582569cdd6c88ae69c0b4))
+
 ## 1.0.0 (2025-12-22)
 
 
