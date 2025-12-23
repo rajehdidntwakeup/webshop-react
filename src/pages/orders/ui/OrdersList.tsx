@@ -1,6 +1,6 @@
-import {Order, OrderResponseDto} from '@/entities/order/model/Order';
+import {OrderItem} from '@/entities/order/model/Order';
 
-import {OrderItem} from './OrderItem';
+import {OrderItem as OrderItemComponent} from './OrderItem';
 
 /**
  * Props for the OrdersList component.
@@ -22,7 +22,7 @@ export function OrdersList({orders}: OrdersListProps) {
     return (
         <div className="grid gap-4">
             {orders.map((order) => (
-                <OrderItem key={order.orderId} order={order}/>
+                <OrderItemComponent key={order.orderId} order={order}/>
             ))}
         </div>
     );

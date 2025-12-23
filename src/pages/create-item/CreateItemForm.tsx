@@ -1,7 +1,6 @@
 import { Package } from 'lucide-react';
 import React from 'react';
 
-import { CreateItemFormData } from './CreateItemFormData';
 import {ProductRequestDto} from "@/entities/product/model/Product.ts";
 
 /**

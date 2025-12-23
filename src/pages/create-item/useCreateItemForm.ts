@@ -2,8 +2,8 @@ import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { useProducts } from '@/entities/product/model/ProductsContext';
 import { ProductRequestDto } from '@/entities/product/model/Product';
+import { useProducts } from '@/entities/product/model/ProductsContext';
 
 /**
  * State structure for the create item form.

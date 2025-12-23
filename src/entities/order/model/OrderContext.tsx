@@ -1,11 +1,11 @@
 import {createContext, ReactNode, useCallback, useContext, useState} from 'react';
 
-import {orderApi} from "../api/orderApi";
 import {productApi} from "../../product/api/productApi";
+import {ProductResponseDto} from "../../product/model/Product";
+import {orderApi} from "../api/orderApi";
 
 import {NewOrderDto} from "./CreateOrderDto";
 import {OrderItem, OrderResponseDto} from "./Order";
-import {ProductResponseDto} from "../../product/model/Product";
 
 /**
  * Type definition for the Order context value.
@@ -76,7 +76,7 @@ export function OrderProvider({children}: { children?: ReactNode }) {
 
                     let productPromise = productCache.get(productId);
                     if (!productPromise) {
-                        productPromise = productApi.getProductById(productId, false);
+                        productPromise = productApi.getProductById(productId);
                         productCache.set(productId, productPromise);
                     }
 

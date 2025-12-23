@@ -1,6 +1,6 @@
 import {Package} from 'lucide-react';
 
-import {Order, OrderItem} from '@/entities/order/model/Order';
+import {OrderItem} from '@/entities/order/model/Order';
 
 /**
  * Props for the OrderItem component.

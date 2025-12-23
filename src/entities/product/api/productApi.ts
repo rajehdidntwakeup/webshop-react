@@ -51,11 +51,10 @@ export const productApi = {
     /**
      * Fetches a single product by its ID.
      * @param productId - The unique identifier of the product.
-     * @param multiCatalog - Flag to include multiple catalogs.
      * @returns A promise that resolves to the ProductResponseDto.
      * @throws Error if the fetch request fails.
      */
-    async getProductById(productId: string, multiCatalog: boolean): Promise<ProductResponseDto> {
+    async getProductById(productId: string): Promise<ProductResponseDto> {
         const response = await fetch(`${INVENTORY_URL}/${productId}?multiCatalog=true`, {
             method: 'GET',
             headers: {
