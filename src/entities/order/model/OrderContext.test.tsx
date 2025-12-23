@@ -83,7 +83,7 @@ describe('OrderContext', () => {
             expect(result.current.isLoading).toBe(false);
             expect(result.current.error).toBe(null);
             expect(orderApi.fetchOrders).toHaveBeenCalledWith(false);
-            expect(productApi.getProductById).toHaveBeenCalledWith('prod-1', false);
+            expect(productApi.getProductById).toHaveBeenCalledWith('prod-1');
         });
 
         it('should handle missing productId in orders', async () => {

@@ -103,8 +103,8 @@ describe('OrdersPage Integration', () => {
         // Wait for orders to load
         await waitFor(() => {
             expect(orderApi.fetchOrders).toHaveBeenCalledTimes(1);
-            expect(productApi.getProductById).toHaveBeenCalledWith('product-1', false);
-            expect(productApi.getProductById).toHaveBeenCalledWith('product-2', false);
+            expect(productApi.getProductById).toHaveBeenCalledWith('product-1');
+            expect(productApi.getProductById).toHaveBeenCalledWith('product-2');
         });
 
         // Verify orders are displayed
