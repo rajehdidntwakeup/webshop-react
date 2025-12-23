@@ -1,19 +1,19 @@
 import {Check, ShoppingBag} from 'lucide-react';
 
-import {Product} from '@/entities/product/model/Product';
+import {ProductResponseDto} from '@/entities/product/model/Product';
 
 /**
  * Props for the ProductCard component.
  *
  * @interface ProductCardProps
- * @property {Product} product - The product object to display.
+ * @property {ProductResponseDto} product - The product object to display.
  * @property {boolean} isOrdered - Whether the product has already been ordered in the current session.
  * @property {Function} onOrder - Callback function to initiate an order for this product.
  */
 interface ProductCardProps {
-    product: Product;
+    product: ProductResponseDto;
     isOrdered: boolean;
-    onOrder: (productId: number, productName: string) => void;
+    onOrder: (productId: string, productName: string) => void;
 }
 
 /**
@@ -29,7 +29,7 @@ export function ProductCard({product, isOrdered, onOrder}: ProductCardProps) {
     /**
      * Flag indicating if the product is currently unavailable due to zero stock.
      */
-    const isOutOfStock = product.stock === 0;
+    const isOutOfStock = product.quantity === 0;
 
     return (
         <div
@@ -43,7 +43,7 @@ export function ProductCard({product, isOrdered, onOrder}: ProductCardProps) {
                             : 'bg-blue-500/30 border-blue-400/50'
                     }`}>
                     <span className={isOutOfStock ? 'text-red-200 text-sm' : 'text-blue-100 text-sm'}>
-                        Stock: {product.stock}
+                        Stock: {product.quantity}
                     </span>
                 </div>
 
@@ -56,7 +56,7 @@ export function ProductCard({product, isOrdered, onOrder}: ProductCardProps) {
                 </div>
 
                 <button
-                    onClick={() => onOrder(product.id, product.name)}
+                    onClick={() => onOrder(product.productId, product.name)}
                     disabled={isOrdered || isOutOfStock}
                     className={`w-full py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 ${
                         isOrdered

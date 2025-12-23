@@ -1,7 +1,7 @@
 import { ENV } from "@/shared/config/env";
 
-import { CreateOrderDto } from "../model/CreateOrderDto";
-import { Order } from "../model/Order";
+import { NewOrderDto } from "../model/CreateOrderDto";
+import { OrderResponseDto } from "../model/Order";
 
 const ORDER_URL = ENV.ORDER_API_URL;
 
@@ -9,14 +9,15 @@ const ORDER_URL = ENV.ORDER_API_URL;
  * API service for managing orders.
  */
 export const orderApi = {
+
     /**
-     * Fetches all orders from the server.
-     * 
-     * @returns {Promise<Order[]>} A promise that resolves to an array of orders.
-     * @throws {Error} If the network request fails or the server returns a non-ok status.
+     * Fetches a list of orders.
+     * @param externalOrder - Flag to include external orders.
+     * @returns A promise that resolves to an array of OrderResponseDto.
+     * @throws Error if the fetch request fails.
      */
-    async fetchOrders(): Promise<Order[]> {
-        const response = await fetch(`${ORDER_URL}`, {
+    async fetchOrders(externalOrder: boolean): Promise<OrderResponseDto[]> {
+        const response = await fetch(`${ORDER_URL}?externalOrder=${externalOrder}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -25,21 +26,22 @@ export const orderApi = {
         if (!response.ok) {
             throw new Error('Failed to fetch orders');
         }
-        const data = await response.json();
-        return data.map((order: Order): Order => ({
+        const data: (OrderResponseDto & { id?: string })[] = await response.json();
+        return data.map((order): OrderResponseDto => ({
             ...order,
-            orderItems: order.orderItems || []
+            orderId: order.orderId || order.id || '',
+            items: order.items || []
         }));
     },
 
     /**
-     * Creates a new order.
-     * 
-     * @param {CreateOrderDto} newOrder - The order data to be created.
-     * @returns {Promise<void>} A promise that resolves when the order is successfully created.
-     * @throws {Error} If the network request fails or the server returns a non-ok status.
+     * Adds a new set of orders.
+     * @param newOrder - An array of NewOrderDto to be added.
+     * @returns A promise that resolves when the orders are successfully added.
+     * @throws Error if the add request fails.
      */
-    async addOrder(newOrder: CreateOrderDto): Promise<void> {
+    async addOrder(newOrder: NewOrderDto[]): Promise<void> {
+        console.log(newOrder);
         const response = await fetch(`${ORDER_URL}`, {
             method: 'POST',
             headers: {

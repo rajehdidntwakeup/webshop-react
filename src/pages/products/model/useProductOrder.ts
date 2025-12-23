@@ -1,8 +1,7 @@
 import {useState} from 'react';
 import {toast} from 'sonner';
 
-import {CreateOrderDto} from '@/entities/order/model/CreateOrderDto';
-import {CreateOrderItem} from '@/entities/order/model/CreateOrderItem';
+import {NewOrderDto} from '@/entities/order/model/CreateOrderDto';
 import {useOrders} from '@/entities/order/model/OrderContext';
 import {useProducts} from '@/entities/product/model/ProductsContext';
 
@@ -11,14 +10,14 @@ import {useProducts} from '@/entities/product/model/ProductsContext';
  * It provides functionality to place an order for a single product and tracks which items have been ordered during the session.
  *
  * @returns {object} An object containing the set of ordered item IDs and the handleOrder function.
- * @returns {Set<number>} returns.orderedItems - A set of IDs for items that have been ordered.
+ * @returns {Set<string>} returns.orderedItems - A set of IDs for items that have been ordered.
  * @returns {Function} returns.handleOrder - A function to initiate an order for a product.
  */
 export function useProductOrder() {
     /**
      * Set of product IDs that have been ordered in the current session.
      */
-    const [orderedItems, setOrderedItems] = useState<Set<number>>(new Set());
+    const [orderedItems, setOrderedItems] = useState<Set<string>>(new Set());
 
     /**
      * Access to order-related actions.
@@ -34,25 +33,18 @@ export function useProductOrder() {
      * Handles the ordering process for a specific product.
      * It creates a new order, updates the products list, and shows a success/error notification.
      *
-     * @param {number} productId - The ID of the product to order.
+     * @param {string} productId - The ID of the product to order.
      * @param {string} productName - The name of the product to order (used for notifications).
      */
-    const handleOrder = async (productId: number, productName: string) => {
-        const product = products.find(p => p.id === productId);
+    const handleOrder = async (productId: string, productName: string) => {
+        const product = products.find(p => p.productId === productId);
         if (!product) return;
 
-        const newOrderItem: CreateOrderItem = {
-            itemId: productId,
-            itemName: productName,
+        const newOrder: NewOrderDto = {
+            productId: productId,
             quantity: 1,
-            price: product.price
-        } as const;
-
-        const newOrder: CreateOrderDto = {
-            totalPrice: product.price,
-            status: 'CONFIRMED',
-            items: [newOrderItem]
         };
+
 
         try {
             await addOrder(newOrder);

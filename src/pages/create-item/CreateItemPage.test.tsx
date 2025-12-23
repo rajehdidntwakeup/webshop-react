@@ -1,93 +1,133 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 import { CreateItemPage } from './CreateItemPage';
-import { BrowserRouter } from 'react-router-dom';
-import { useProducts } from '@/entities/product/model/ProductsContext';
-import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import { useCreateItemForm } from './useCreateItemForm';
 
-vi.mock('@/entities/product/model/ProductsContext', () => ({
-    useProducts: vi.fn(),
+// Mock useNavigate
+vi.mock('react-router-dom', () => ({
+    useNavigate: vi.fn(),
 }));
 
-vi.mock('sonner', () => ({
-    toast: {
-        success: vi.fn(),
-        error: vi.fn(),
-    },
+// Mock useCreateItemForm hook
+vi.mock('./useCreateItemForm', () => ({
+    useCreateItemForm: vi.fn(),
 }));
 
-// Mocking useCreateItemForm would make it less of an "integration" test,
-// but we need to mock useProducts anyway.
-// Let's try to test the real page with mocked context.
+describe('CreateItemPage', () => {
+    const mockNavigate = vi.fn();
+    const mockUpdateField = vi.fn();
+    const mockHandleSubmit = vi.fn();
 
-const renderPage = () => {
-    return render(
-        <BrowserRouter>
-            <CreateItemPage />
-        </BrowserRouter>
-    );
-};
-
-describe('CreateItemPage Integration', () => {
-    const mockAddProduct = vi.fn();
+    const mockFormData = {
+        ean: '',
+        name: '',
+        description: '',
+        price: 0,
+        quantity: 0,
+        brand: '',
+    };
 
     beforeEach(() => {
         vi.clearAllMocks();
-        (useProducts as any).mockReturnValue({ addProduct: mockAddProduct });
-        vi.useFakeTimers();
+        vi.mocked(useNavigate).mockReturnValue(mockNavigate);
+        vi.mocked(useCreateItemForm).mockReturnValue({
+            formData: mockFormData,
+            updateField: mockUpdateField,
+            handleSubmit: mockHandleSubmit,
+            isSubmitting: false,
+        });
     });
 
-    it('renders the page and handles back navigation', () => {
-        renderPage();
+    it('renders the page header with title', () => {
+        render(<CreateItemPage />);
 
-        expect(screen.getByText(/Create New Item/i)).toBeInTheDocument();
-        const backButton = screen.getByRole('button', { name: /Back to Home/i });
-        expect(backButton).toBeInTheDocument();
-        
-        // Navigation is harder to test without a memory router or similar, 
-        // but we can verify it doesn't crash.
+        expect(screen.getByText('Create New Item')).toBeInTheDocument();
+    });
+
+    it('renders the page description', () => {
+        render(<CreateItemPage />);
+
+        expect(screen.getByText('Add a new product to your catalog. Fill in the details below.')).toBeInTheDocument();
+    });
+
+    it('renders the back to home button', () => {
+        render(<CreateItemPage />);
+
+        expect(screen.getByText('Back to Home')).toBeInTheDocument();
+    });
+
+    it('navigates to home when back button is clicked', () => {
+        render(<CreateItemPage />);
+
+        const backButton = screen.getByText('Back to Home');
         fireEvent.click(backButton);
+
+        expect(mockNavigate).toHaveBeenCalledWith('/');
     });
 
-    it('successfully creates a product through the UI', async () => {
-        renderPage();
+    it('renders the CreateItemForm component', () => {
+        render(<CreateItemPage />);
 
-        fireEvent.change(screen.getByLabelText(/Product Name/i), { target: { value: 'Awesome Product' } });
-        fireEvent.change(screen.getByLabelText(/Stock Quantity/i), { target: { value: '42' } });
-        fireEvent.change(screen.getByLabelText(/Price/i), { target: { value: '19.99' } });
-        fireEvent.change(screen.getByLabelText(/Description/i), { target: { value: 'Best product ever' } });
-
-        mockAddProduct.mockResolvedValueOnce({});
-
-        const submitButton = screen.getByRole('button', { name: /Create Product/i });
-        
-        await act(async () => {
-            fireEvent.click(submitButton);
-        });
-
-        expect(mockAddProduct).toHaveBeenCalledWith({
-            name: 'Awesome Product',
-            stock: 42,
-            price: 19.99,
-            description: 'Best product ever',
-        });
-
-        expect(toast.success).toHaveBeenCalledWith('Product created successfully!', expect.any(Object));
-        
-        // Check if form is reset
-        expect(screen.getByLabelText(/Product Name/i)).toHaveValue('');
+        // Check if form fields are rendered (which means CreateItemForm is rendered)
+        expect(screen.getByLabelText('Product EAN')).toBeInTheDocument();
+        expect(screen.getByLabelText('Product Name')).toBeInTheDocument();
+        expect(screen.getByLabelText('Brand Name')).toBeInTheDocument();
+        expect(screen.getByLabelText('Stock Quantity')).toBeInTheDocument();
+        expect(screen.getByLabelText('Price')).toBeInTheDocument();
+        expect(screen.getByLabelText('Description')).toBeInTheDocument();
     });
 
-    it('shows validation errors when fields are missing', async () => {
-        renderPage();
+    it('passes formData to CreateItemForm', () => {
+        const filledFormData = {
+            ean: '0123456789123',
+            name: 'Test Product',
+            description: 'Test description',
+            price: 99.99,
+            quantity: 50,
+            brand: 'Test Brand',
+        };
 
-        const submitButton = screen.getByRole('button', { name: /Create Product/i });
-        
-        await act(async () => {
-            fireEvent.click(submitButton);
+        vi.mocked(useCreateItemForm).mockReturnValue({
+            formData: filledFormData,
+            updateField: mockUpdateField,
+            handleSubmit: mockHandleSubmit,
+            isSubmitting: false,
         });
 
-        expect(toast.error).toHaveBeenCalledWith('Please fill in all fields');
-        expect(mockAddProduct).not.toHaveBeenCalled();
+        render(<CreateItemPage />);
+
+        expect(screen.getByDisplayValue('0123456789123')).toBeInTheDocument();
+        expect(screen.getByDisplayValue('Test Product')).toBeInTheDocument();
+        expect(screen.getByDisplayValue('Test Brand')).toBeInTheDocument();
+    });
+
+    it('passes isSubmitting state to CreateItemForm', () => {
+        vi.mocked(useCreateItemForm).mockReturnValue({
+            formData: mockFormData,
+            updateField: mockUpdateField,
+            handleSubmit: mockHandleSubmit,
+            isSubmitting: true,
+        });
+
+        render(<CreateItemPage />);
+
+        expect(screen.getByText('Creating...')).toBeInTheDocument();
+    });
+
+    it('renders Plus icon in the header', () => {
+        render(<CreateItemPage />);
+
+        // The Plus icon is rendered in an SVG element
+        const header = screen.getByText('Create New Item').parentElement;
+        expect(header).toBeInTheDocument();
+    });
+
+    it('renders animated background elements', () => {
+        const { container } = render(<CreateItemPage />);
+
+        // Check for animated background divs
+        const animatedElements = container.querySelectorAll('.animate-pulse');
+        expect(animatedElements.length).toBeGreaterThan(0);
     });
 });

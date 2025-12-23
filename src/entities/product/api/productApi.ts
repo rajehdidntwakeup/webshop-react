@@ -1,6 +1,6 @@
 import {ENV} from "@/shared/config/env";
 
-import {Product} from "../model/Product";
+import {ProductResponseDto, ProductRequestDto} from "../model/Product";
 
 const INVENTORY_URL = ENV.INVENTORY_API_URL;
 
@@ -9,15 +9,15 @@ const INVENTORY_URL = ENV.INVENTORY_API_URL;
  */
 export const productApi = {
 
+
     /**
-     * Retrieves a list of products from the inventory.
-     * 
-     * @param {boolean} [multiCatalog=false] - Whether to fetch products from multiple catalogs.
-     * @returns {Promise<Product[]>} A promise that resolves to an array of products.
-     * @throws {Error} If the request fails or the response is not ok.
+     * Fetches a list of products.
+     * @param multiCatalog - Flag to include multiple catalogs.
+     * @returns A promise that resolves to an array of ProductResponseDto.
+     * @throws Error if the fetch request fails.
      */
-    async getProducts(multiCatalog: boolean = false): Promise<Product[]> {
-        const response = await fetch(`${INVENTORY_URL}?multi-catalog=${multiCatalog}`, {
+    async getProducts(multiCatalog: boolean): Promise<ProductResponseDto[]> {
+        const response = await fetch(`${INVENTORY_URL}?multiCatalog=${multiCatalog}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,12 +29,11 @@ export const productApi = {
 
     /**
      * Adds a new product to the inventory.
-     * 
-     * @param {Omit<Product, 'id'>} product - The product data to add (excluding the ID).
-     * @returns {Promise<Product>} A promise that resolves to the newly created product.
-     * @throws {Error} If the request fails or the response is not ok.
+     * @param product - The product data to add.
+     * @returns A promise that resolves to the added ProductRequestDto.
+     * @throws Error if the add request fails.
      */
-    async addProduct(product: Omit<Product, 'id'>): Promise<Product> {
+    async addProduct(product: ProductRequestDto): Promise<ProductRequestDto> {
         const response = await fetch(`${INVENTORY_URL}`, {
             method: 'POST',
             headers: {
@@ -46,6 +45,25 @@ export const productApi = {
             throw new Error('Failed to add product');
         }
         return response.json();
-    }
+    },
 
+    
+    /**
+     * Fetches a single product by its ID.
+     * @param productId - The unique identifier of the product.
+     * @returns A promise that resolves to the ProductResponseDto.
+     * @throws Error if the fetch request fails.
+     */
+    async getProductById(productId: string): Promise<ProductResponseDto> {
+        const response = await fetch(`${INVENTORY_URL}/${productId}?multiCatalog=true`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Failed to load product');
+        }
+        return response.json();
+    },
 }

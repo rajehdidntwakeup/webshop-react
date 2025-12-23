@@ -1,19 +1,9 @@
-import {OrderItem} from "./OrderItem";
-
 /**
- * Data Transfer Object for creating a new order.
+ * Data Transfer Object for creating a new order item.
  */
-export interface CreateOrderDto {
-    /**
-     * Total price of the order as a formatted string.
-     */
-    totalPrice: string;
-    /**
-     * Current status of the order (e.g., 'PENDING', 'COMPLETED').
-     */
-    status: string;
-    /**
-     * List of items included in the order.
-     */
-    items: OrderItem[];
+export interface NewOrderDto {
+    /** Unique identifier of the product */
+    productId: string;
+    /** Quantity of the product being ordered */
+    quantity: number;
 }

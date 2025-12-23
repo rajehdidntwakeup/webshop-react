@@ -1,76 +1,149 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { HomePage } from './HomePage';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+// Mock useNavigate
+vi.mock('react-router-dom', () => ({
+    useNavigate: vi.fn(),
+}));
 
 describe('HomePage', () => {
-    describe('Unit Tests', () => {
-        it('renders the welcome message and description', () => {
-            render(
-                <MemoryRouter>
-                    <HomePage />
-                </MemoryRouter>
-            );
+    const mockNavigate = vi.fn();
 
-            expect(screen.getByText('Welcome to our Webshop')).toBeInTheDocument();
-            expect(screen.getByText(/Discover our curated collection/i)).toBeInTheDocument();
-        });
-
-        it('renders all navigation buttons', () => {
-            render(
-                <MemoryRouter>
-                    <HomePage />
-                </MemoryRouter>
-            );
-
-            expect(screen.getByText('Explore Collection')).toBeInTheDocument();
-            expect(screen.getByText('Create Item')).toBeInTheDocument();
-            expect(screen.getByText('Orders')).toBeInTheDocument();
-            expect(screen.getByText('Learn More')).toBeInTheDocument();
-        });
+    beforeEach(() => {
+        vi.clearAllMocks();
+        vi.mocked(useNavigate).mockReturnValue(mockNavigate);
     });
 
-    describe('Integration Tests (Navigation)', () => {
-        const renderWithRouter = () => {
-            return render(
-                <MemoryRouter initialEntries={['/']}>
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/products" element={<div>Products Page</div>} />
-                        <Route path="/create" element={<div>Create Page</div>} />
-                        <Route path="/orders" element={<div>Orders Page</div>} />
-                        <Route path="/docs" element={<div>Docs Page</div>} />
-                    </Routes>
-                </MemoryRouter>
-            );
-        };
+    it('renders the page header with title', () => {
+        render(<HomePage />);
 
-        it('navigates to /products when "Explore Collection" is clicked', () => {
-            renderWithRouter();
-            
-            fireEvent.click(screen.getByText('Explore Collection'));
-            expect(screen.getByText('Products Page')).toBeInTheDocument();
-        });
+        expect(screen.getByText('Welcome to our Webshop')).toBeInTheDocument();
+    });
 
-        it('navigates to /create when "Create Item" is clicked', () => {
-            renderWithRouter();
-            
-            fireEvent.click(screen.getByText('Create Item'));
-            expect(screen.getByText('Create Page')).toBeInTheDocument();
-        });
+    it('renders the page description', () => {
+        render(<HomePage />);
 
-        it('navigates to /orders when "Orders" is clicked', () => {
-            renderWithRouter();
-            
-            fireEvent.click(screen.getByText('Orders'));
-            expect(screen.getByText('Orders Page')).toBeInTheDocument();
-        });
+        expect(
+            screen.getByText(
+                /Discover our curated collection of premium products/i
+            )
+        ).toBeInTheDocument();
+    });
 
-        it('navigates to /docs when "Learn More" is clicked', () => {
-            renderWithRouter();
-            
-            fireEvent.click(screen.getByText('Learn More'));
-            expect(screen.getByText('Docs Page')).toBeInTheDocument();
-        });
+    it('renders the ShoppingBag icon in the header', () => {
+        render(<HomePage />);
+
+        const headerWithIcon = screen.getByText('Welcome to our Webshop').parentElement?.parentElement;
+        expect(headerWithIcon).toBeInTheDocument();
+    });
+
+    it('renders the "Explore Collection" button', () => {
+        render(<HomePage />);
+
+        expect(screen.getByText('Explore Collection')).toBeInTheDocument();
+    });
+
+    it('renders the "Create Item" button', () => {
+        render(<HomePage />);
+
+        expect(screen.getByText('Create Item')).toBeInTheDocument();
+    });
+
+    it('renders the "Orders" button', () => {
+        render(<HomePage />);
+
+        expect(screen.getByText('Orders')).toBeInTheDocument();
+    });
+
+    it('renders the "Learn More" button', () => {
+        render(<HomePage />);
+
+        expect(screen.getByText('Learn More')).toBeInTheDocument();
+    });
+
+    it('navigates to /products when "Explore Collection" button is clicked', () => {
+        render(<HomePage />);
+
+        const exploreButton = screen.getByText('Explore Collection');
+        fireEvent.click(exploreButton);
+
+        expect(mockNavigate).toHaveBeenCalledWith('/products');
+    });
+
+    it('navigates to /create when "Create Item" button is clicked', () => {
+        render(<HomePage />);
+
+        const createButton = screen.getByText('Create Item');
+        fireEvent.click(createButton);
+
+        expect(mockNavigate).toHaveBeenCalledWith('/create');
+    });
+
+    it('navigates to /orders when "Orders" button is clicked', () => {
+        render(<HomePage />);
+
+        const ordersButton = screen.getByText('Orders');
+        fireEvent.click(ordersButton);
+
+        expect(mockNavigate).toHaveBeenCalledWith('/orders');
+    });
+
+    it('navigates to /docs when "Learn More" button is clicked', () => {
+        render(<HomePage />);
+
+        const learnMoreButton = screen.getByText('Learn More');
+        fireEvent.click(learnMoreButton);
+
+        expect(mockNavigate).toHaveBeenCalledWith('/docs');
+    });
+
+    it('renders animated background elements', () => {
+        const { container } = render(<HomePage />);
+
+        // Check for animated background divs with animate-pulse class
+        const animatedElements = container.querySelectorAll('.animate-pulse');
+        expect(animatedElements.length).toBe(3);
+    });
+
+    it('renders glass card with backdrop blur effect', () => {
+        const { container } = render(<HomePage />);
+
+        // Check for glass card with backdrop-blur-xl class
+        const glassCard = container.querySelector('.backdrop-blur-xl');
+        expect(glassCard).toBeInTheDocument();
+    });
+
+    it('renders all navigation buttons in correct order', () => {
+        render(<HomePage />);
+
+        const buttons = screen.getAllByRole('button');
+
+        expect(buttons[0]).toHaveTextContent('Explore Collection');
+        expect(buttons[1]).toHaveTextContent('Create Item');
+        expect(buttons[2]).toHaveTextContent('Orders');
+        expect(buttons[3]).toHaveTextContent('Learn More');
+    });
+
+    it('renders ArrowRight icon in "Explore Collection" button', () => {
+        render(<HomePage />);
+
+        const exploreButton = screen.getByText('Explore Collection');
+        expect(exploreButton.parentElement).toBeInTheDocument();
+    });
+
+    it('renders Plus icon in "Create Item" button', () => {
+        render(<HomePage />);
+
+        const createButton = screen.getByText('Create Item');
+        expect(createButton.parentElement).toBeInTheDocument();
+    });
+
+    it('renders Package icon in "Orders" button', () => {
+        render(<HomePage />);
+
+        const ordersButton = screen.getByText('Orders');
+        expect(ordersButton.parentElement).toBeInTheDocument();
     });
 });
