@@ -8,7 +8,7 @@ body:
     attributes:
       label: Setup Task Title
       description: Short title for this setup-related issue
-      placeholder: e.g. Setup a java maven project..
+      placeholder: e.g. Setup a new feature layer..
     validations:
       required: true
 
@@ -17,7 +17,7 @@ body:
     attributes:
       label: Description
       description: A clear and concise description of the setup task.
-      placeholder: Explain the setup requirement in detail...
+      placeholder: Explain the setup requirement in detail (e.g., adding a new shared component, configuring a provider)...
     validations:
       required: true
 
@@ -27,9 +27,9 @@ body:
       label: Acceptance Criteria
       description: Provide a **checklist** of conditions that must be met for setup to be complete.
       placeholder: |
-        - [ ] Create a Spring Boot project
-        - [ ] Add Java 24
-        - [ ] Add Maven
-        - [ ] Add fundamental dependencies
+        - [ ] Create necessary FSD layers (shared/entities/features)
+        - [ ] Implement core component logic
+        - [ ] Add unit tests with Vitest
+        - [ ] Verify Tailwind CSS styling
     validations:
       required: true

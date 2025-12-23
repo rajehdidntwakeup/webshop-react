@@ -1,56 +1,53 @@
-# Webshop React 🛍️
+# 💧 LiquidShop
 
-A modern, high-performance e-commerce frontend built with **React 18**, **TypeScript**, and **Vite**. This project follows the **Feature-Sliced Design (FSD)** architectural pattern to ensure scalability, maintainability, and clear separation of concerns.
+LiquidShop is a modern, high-performance e-commerce platform built with **React 18**, **TypeScript**, and **Vite**. It features a stunning glassmorphism-inspired UI and follows the **Feature-Sliced Design (FSD)** architecture for maximum scalability and maintainability.
 
-![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)
-![Vite](https://img.shields.io/badge/Vite-6.4-646CFF?logo=vite)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css)
-![FSD](https://img.shields.io/badge/Architecture-FSD-orange)
+---
 
 ## ✨ Features
 
-- 🚀 **Modern UI/UX**: Clean, responsive design with glassmorphism effects and smooth animations using Tailwind CSS and Lucide icons.
-- 📦 **Product Management**: Browse through a curated collection of products with real-time inventory updates.
-- ➕ **Item Creation**: Seamlessly add new products to the catalog via a dedicated creation flow.
-- 📜 **Order Tracking**: View and manage customer orders with different states (loading, error, empty).
-- 🧩 **Component-Driven**: Built using Radix UI primitives for high accessibility and reliability.
-- 🛠️ **FSD Architecture**: Organized by business logic layers (App, Pages, Entities, Shared) for better developer experience.
-- 🧪 **Testing**: Comprehensive unit and integration tests using Vitest and React Testing Library.
+- 🛍️ **Premium Product Catalog**: Browse a curated collection of products with an elegant interface.
+- 🛒 **Shopping Experience**: Seamlessly add products to your cart and manage your selections.
+- 📦 **Order Management**: Track and view your order history with detailed information.
+- ➕ **Product Creation**: Easily add new items to the inventory via a dedicated interface.
+- 📱 **Fully Responsive**: Optimized for all devices, from desktop to mobile.
+- 🎨 **Glassmorphism UI**: A modern design language utilizing backdrop blurs and vibrant gradients.
+- 📖 **Built-in Documentation**: Integrated user guide to help customers navigate the shop.
 
-## 🛠️ Tech Stack
+---
+
+## 🚀 Tech Stack
 
 - **Framework**: [React 18](https://reactjs.org/)
 - **Build Tool**: [Vite](https://vitejs.dev/)
-- **Type Safety**: [TypeScript](https://www.typescriptlang.org/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components**: [Radix UI](https://www.radix-ui.com/)
+- **UI Components**: [Radix UI](https://www.radix-ui.com/) Primitives
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Routing**: [React Router 6](https://reactrouter.com/)
 - **Forms**: [React Hook Form](https://react-hook-form.com/)
-- **State Management**: React Context API
 - **Testing**: [Vitest](https://vitest.dev/) & [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- **Linting**: [ESLint](https://eslint.org/)
 
-## 🏗️ Project Structure
+---
 
-This project follows the **Feature-Sliced Design (FSD)** methodology:
+## 🏗️ Architecture
 
-```text
-src/
-  ├── app/          # App-wide providers, global styles, and layout wrappers
-  ├── pages/        # Composition of pages (Home, Products, Orders, Create)
-  ├── entities/     # Domain-specific logic (Product, Order)
-  ├── shared/       # Reusable UI components, utilities, and configuration
-  ├── main.tsx      # Entry point
-  └── index.css     # Global styles (Tailwind)
-```
+LiquidShop follows the **Feature-Sliced Design (FSD)** architectural pattern. This methodology organizes the codebase based on business logic and scope:
 
-## 🚀 Getting Started
+- **`app/`**: Application-wide setup, providers, and global styles.
+- **`pages/`**: Full pages composed of features and entities.
+- **`entities/`**: Business entities (e.g., Product, Order) containing their specific logic and components.
+- **`shared/`**: Reusable components, utilities, and configurations (API clients, hooks, etc.).
+
+---
+
+## 🛠️ Getting Started
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- npm or yarn
+- [Node.js](https://nodejs.org/) (v18.0.0 or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
 ### Installation
 
@@ -65,14 +62,18 @@ src/
    npm install
    ```
 
-3. Configure environment variables (optional):
-   Create a `.env` file in the root directory:
-   ```env
-   VITE_API_URL_INVENTORY=http://localhost:8080/api/inventory
-   VITE_API_URL_ORDER=http://localhost:8081/api/order
-   ```
+### Environment Variables
 
-### Running the App
+Create a `.env` file in the root directory and configure your API endpoints:
+
+```env
+VITE_API_URL_INVENTORY=your_inventory_api_url
+VITE_API_URL_ORDER=your_order_api_url
+```
+
+*Note: The application defaults to `localhost` endpoints if these are not provided.*
+
+### Running the Application
 
 Start the development server:
 ```bash
@@ -81,35 +82,23 @@ npm run dev
 
 The application will be available at `http://localhost:5173`.
 
-## 📜 Available Scripts
+---
 
-- `npm run dev`: Start development server.
-- `npm run build`: Build the production-ready bundle.
-- `npm run lint`: Run ESLint to check for code quality.
-- `npm run test`: Run unit and integration tests using Vitest.
+## 🧪 Available Scripts
 
-## 🧪 Testing
+- `npm run dev`: Runs the app in development mode.
+- `npm run build`: Builds the app for production.
+- `npm run lint`: Runs ESLint to find and fix code style issues.
+- `npm run test`: Executes unit and integration tests using Vitest.
 
-We use **Vitest** for unit and integration testing. To run the tests:
+---
 
-```bash
-npm run test
-```
+## 📸 Screenshots
 
-For watch mode during development:
-```bash
-npx vitest
-```
+*(Add screenshots of your application here)*
 
-## 🤝 Contributing
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git checkout -b feature/AmazingFeature`)
-5. Open a Pull Request
+---
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-  
+This project is licensed under the [MIT License](LICENSE.md).

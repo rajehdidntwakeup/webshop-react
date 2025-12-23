@@ -28,10 +28,10 @@ body:
       label: Acceptance Criteria
       description: Provide a **checklist** of conditions that must be met.
       placeholder: |
-        - [ ] README updated with Java 24 runtime requirements
-        - [ ] Security configuration section added with CORS details
-        - [ ] H2 database setup instructions updated
-        - [ ] REST endpoints documentation refreshed with latest examples
-        - [ ] Project structure and dependencies list updated
+        - [ ] README updated with latest project features
+        - [ ] Added documentation for new Feature-Sliced Design (FSD) layers
+        - [ ] Technical documentation for Vitest setup updated
+        - [ ] Updated component documentation for UI library components
+        - [ ] Project structure and dependencies list updated in README
     validations:
       required: true

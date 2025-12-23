@@ -8,7 +8,7 @@ body:
     attributes:
       label: Bug Title
       description: Short title describing the bug
-      placeholder: e.g. GET endpoint returns 404
+      placeholder: e.g. Product card image fails to load on mobile
     validations:
       required: true
 
@@ -17,7 +17,13 @@ body:
     attributes:
       label: Description
       description: A clear and concise description of the bug, including steps to reproduce if possible.
-      placeholder: Explain what’s broken, how to reproduce, and expected vs. actual behavior.
+      placeholder: |
+        Explain what’s broken, how to reproduce, and expected vs. actual behavior.
+        Please include:
+        - Device/Browser used
+        - Steps to reproduce
+        - Expected behavior
+        - Actual behavior
     validations:
       required: true
 
@@ -27,8 +33,9 @@ body:
       label: Acceptance Criteria
       description: Provide a **checklist** of conditions that define when the bug is fixed.
       placeholder: |
-        - [ ] GET request to endpoint returns 200 OK status code
-        - [ ] Response includes expected data in the correct format
-        - [ ] Error logs show no exceptions or failures
+        - [ ] Component renders correctly without errors
+        - [ ] Interaction behaves as expected according to requirements
+        - [ ] Relevant tests (Vitest/RTL) are passing
+        - [ ] No regression in related FSD slices (entities/features)
     validations:
       required: true
