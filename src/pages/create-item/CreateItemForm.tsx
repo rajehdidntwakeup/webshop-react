@@ -2,15 +2,16 @@ import { Package } from 'lucide-react';
 import React from 'react';
 
 import { CreateItemFormData } from './CreateItemFormData';
+import {ProductRequestDto} from "@/entities/product/model/Product.ts";
 
 /**
  * Interface for the CreateItemForm component props.
  */
 interface CreateItemFormProps {
     /** The current state of the form data. */
-    formData: CreateItemFormData;
+    formData: ProductRequestDto;
     /** Function to update a specific field in the form data. */
-    updateField: (field: keyof CreateItemFormData, value: string) => void;
+    updateField: (field: keyof ProductRequestDto, value: string) => void;
     /** Form submission handler. */
     handleSubmit: (e: React.FormEvent) => void;
     /** Indicates if the form is currently being submitted. */
@@ -30,6 +31,21 @@ export function CreateItemForm({ formData, updateField, handleSubmit, isSubmitti
     return (
         <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Product EAN */}
+                <div>
+                    <label htmlFor="ean" className="block text-white mb-2">
+                        Product EAN
+                    </label>
+                    <input
+                        type="text"
+                        id="ean"
+                        value={formData.ean}
+                        onChange={(e) => updateField('ean', e.target.value)}
+                        placeholder="e.g., 0123456789123"
+                        className="w-full backdrop-blur-md bg-white/20 border border-white/30 text-white placeholder-white/50 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+                        disabled={isSubmitting}
+                    />
+                </div>
                 {/* Product Name */}
                 <div>
                     <label htmlFor="name" className="block text-white mb-2">
@@ -46,16 +62,32 @@ export function CreateItemForm({ formData, updateField, handleSubmit, isSubmitti
                     />
                 </div>
 
-                {/* Stock */}
+                {/* Brand Name */}
                 <div>
-                    <label htmlFor="stock" className="block text-white mb-2">
+                    <label htmlFor="brand" className="block text-white mb-2">
+                        Brand Name
+                    </label>
+                    <input
+                        type="text"
+                        id="brand"
+                        value={formData.brand}
+                        onChange={(e) => updateField('brand', e.target.value)}
+                        placeholder="e.g., Prada"
+                        className="w-full backdrop-blur-md bg-white/20 border border-white/30 text-white placeholder-white/50 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+                        disabled={isSubmitting}
+                    />
+                </div>
+
+                {/* Stock Quantity */}
+                <div>
+                    <label htmlFor="quantity" className="block text-white mb-2">
                         Stock Quantity
                     </label>
                     <input
                         type="number"
-                        id="stock"
-                        value={formData.stock}
-                        onChange={(e) => updateField('stock', e.target.value)}
+                        id="quantity"
+                        value={formData.quantity}
+                        onChange={(e) => updateField('quantity', e.target.value)}
                         placeholder="e.g., 50"
                         min="0"
                         className="w-full backdrop-blur-md bg-white/20 border border-white/30 text-white placeholder-white/50 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"

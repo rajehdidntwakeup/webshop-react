@@ -1,16 +1,18 @@
 import {createContext, ReactNode, useCallback, useContext, useState} from 'react';
 
 import {orderApi} from "../api/orderApi";
+import {productApi} from "../../product/api/productApi";
 
-import {CreateOrderDto} from "./CreateOrderDto";
-import {Order} from "./Order";
+import {NewOrderDto} from "./CreateOrderDto";
+import {OrderItem, OrderResponseDto} from "./Order";
+import {ProductResponseDto} from "../../product/model/Product";
 
 /**
  * Type definition for the Order context value.
  */
 interface OrderContextType {
     /** List of all orders. */
-    orders: Order[];
+    orders: OrderItem[];
     /** Loading state for order-related operations. */
     isLoading: boolean;
     /** Error message if an operation fails, null otherwise. */
@@ -22,10 +24,10 @@ interface OrderContextType {
     fetchOrders: () => Promise<void>;
     /**
      * Adds a new order via the API and refreshes the order list.
-     * @param {CreateOrderDto} order - The data for the new order.
+     * @param {NewOrderDto} order - The data for the new order.
      * @returns {Promise<void>}
      */
-    addOrder: (order: CreateOrderDto) => Promise<void>;
+    addOrder: (order: NewOrderDto) => Promise<void>;
 }
 
 /**
@@ -41,16 +43,66 @@ const OrderContext = createContext<OrderContextType | undefined>(undefined);
  * @returns {JSX.Element} The provider component.
  */
 export function OrderProvider({children}: { children?: ReactNode }) {
-    const [orders, setOrders] = useState<Order[]>([]);
+    const [orders, setOrders] = useState<OrderItem[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    /**
+     * Fetches all orders from the API and updates the state.
+     * It also fetches product details for each order to display product names and prices.
+     * Uses a cache to avoid redundant product API calls.
+     * @returns {Promise<void>}
+     */
     const fetchOrders = useCallback(async () => {
         setIsLoading(true);
         setError(null);
         try {
-            const mappedOrders = await orderApi.fetchOrders();
-            setOrders(mappedOrders);
+            const mappedOrders: OrderResponseDto[] = await orderApi.fetchOrders(false);
+
+            const productCache = new Map<string, Promise<ProductResponseDto>>();
+
+            const orderItemsPromises = mappedOrders.map(async (order) => {
+                try {
+                    const productId = order.items[0]?.productId;
+                    if (!productId) {
+                        return {
+                            orderId: order.orderId,
+                            productName: 'Unknown Product',
+                            price: 0,
+                            createdAt: order.createdAt,
+                            status: order.status,
+                        };
+                    }
+
+                    let productPromise = productCache.get(productId);
+                    if (!productPromise) {
+                        productPromise = productApi.getProductById(productId, false);
+                        productCache.set(productId, productPromise);
+                    }
+
+                    const product = await productPromise;
+
+                    return {
+                        orderId: order.orderId,
+                        productName: product.name,
+                        price: product.price,
+                        createdAt: order.createdAt,
+                        status: order.status,
+                    };
+                } catch (err) {
+                    console.error(`Error fetching product for order ${order.orderId}:`, err);
+                    return {
+                        orderId: order.orderId,
+                        productName: 'Error loading product',
+                        price: 0,
+                        createdAt: order.createdAt,
+                        status: order.status,
+                    };
+                }
+            });
+
+            const orderItems = await Promise.all(orderItemsPromises);
+            setOrders(orderItems);
         } catch (err) {
             console.error('Error fetching orders:', err);
             setError(err instanceof Error ? err.message : 'An error occurred');
@@ -59,10 +111,16 @@ export function OrderProvider({children}: { children?: ReactNode }) {
         }
     }, []);
 
-    const addOrder = useCallback(async (newOrder: CreateOrderDto) => {
+
+    /**
+     * Adds a new order via the API and refreshes the order list.
+     * @param {NewOrderDto} newOrder - The data for the new order.
+     * @returns {Promise<void>}
+     */
+    const addOrder = useCallback(async (newOrder: NewOrderDto) => {
         setError(null);
         try {
-            await orderApi.addOrder(newOrder);
+            await orderApi.addOrder([newOrder]);
             await fetchOrders();
         } catch (err) {
             console.error('Error adding order:', err);

@@ -2,25 +2,31 @@ import {createContext, ReactNode, useCallback, useContext, useEffect, useState} 
 
 import {productApi} from "../api/productApi";
 
-import {Product} from "./Product";
+import {ProductRequestDto, ProductResponseDto} from "./Product";
 
 /**
  * Context for managing products within the application.
  */
 interface ProductsContextType {
     /** List of all available products. */
-    products: Product[];
+    products: ProductResponseDto[];
     /** Indicates if products are currently being loaded. */
     isLoading: boolean;
     /** Error message if product fetching or addition fails, otherwise null. */
     error: string | null;
+    /** Multi-catalog toggle state. */
+    multiCatalog: boolean;
+    /**
+     * Sets the multi-catalog toggle state.
+     */
+    setMultiCatalog: (value: boolean) => void;
     /**
      * Adds a new product to the system.
      * @param product - The product data to add (excluding the ID).
      * @returns A promise that resolves when the product is successfully added and the list is refreshed.
      * @throws Will throw an error if the addition fails.
      */
-    addProduct: (product: Omit<Product, 'id'>) => Promise<void>;
+    addProduct: (product: ProductRequestDto) => Promise<void>;
     /**
      * Refetches the products list from the API.
      * @returns A promise that resolves when the list is updated.
@@ -40,9 +46,10 @@ export const ProductsContext = createContext<ProductsContextType | undefined>(un
  * @param props.children - React nodes to be wrapped by the provider.
  */
 export function ProductsProvider({children}: { children?: ReactNode }) {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<ProductResponseDto[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [multiCatalog, setMultiCatalog] = useState(false);
 
     /**
      * Fetches products from the API and updates state.
@@ -51,7 +58,7 @@ export function ProductsProvider({children}: { children?: ReactNode }) {
         setIsLoading(true);
         setError(null);
         try {
-            const data = await productApi.getProducts(false);
+            const data = await productApi.getProducts(multiCatalog);
             setProducts(data);
         } catch (err) {
             console.error("Failed to fetch products:", err);
@@ -59,7 +66,7 @@ export function ProductsProvider({children}: { children?: ReactNode }) {
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [multiCatalog]);
 
     useEffect(() => {
         refreshProducts();
@@ -68,7 +75,7 @@ export function ProductsProvider({children}: { children?: ReactNode }) {
     /**
      * Sends a request to add a new product and refreshes the list upon success.
      */
-    const addProduct = useCallback(async (product: Omit<Product, 'id'>) => {
+    const addProduct = useCallback(async (product: ProductRequestDto) => {
         setError(null);
         try {
             await productApi.addProduct(product);
@@ -81,7 +88,7 @@ export function ProductsProvider({children}: { children?: ReactNode }) {
     }, [refreshProducts]);
 
     return (
-        <ProductsContext.Provider value={{products, isLoading, error, addProduct, refreshProducts}}>
+        <ProductsContext.Provider value={{products, isLoading, error, multiCatalog, setMultiCatalog, addProduct, refreshProducts}}>
             {children}
         </ProductsContext.Provider>
     );

@@ -1,4 +1,4 @@
-import {Order} from '@/entities/order/model/Order';
+import {Order, OrderResponseDto} from '@/entities/order/model/Order';
 
 import {OrderItem} from './OrderItem';
 
@@ -9,7 +9,7 @@ import {OrderItem} from './OrderItem';
  */
 interface OrdersListProps {
     /** The list of orders to display. */
-    orders: Order[];
+    orders: OrderItem[];
 }
 
 /**
@@ -22,7 +22,7 @@ export function OrdersList({orders}: OrdersListProps) {
     return (
         <div className="grid gap-4">
             {orders.map((order) => (
-                <OrderItem key={order.id} order={order}/>
+                <OrderItem key={order.orderId} order={order}/>
             ))}
         </div>
     );

@@ -1,25 +1,13 @@
+
+
 /**
- * Represents an item within an order.
+ * Data Transfer Object for an item within an order response.
  */
-export interface OrderItem {
-    /**
-     * Unique identifier for the order item.
-     */
-    id: number;
-    /**
-     * Identifier of the associated item/product.
-     */
-    itemId: number;
-    /**
-     * Name of the item at the time of order.
-     */
-    itemName: string;
-    /**
-     * Quantity of the item ordered.
-     */
-    quantity: number;
-    /**
-     * Price per unit of the item as a string (to preserve precision).
-     */
-    price: string;
+export interface OrderItemResponseDto {
+    /** Unique identifier for the order item */
+    orderItemId : string;
+    /** Unique identifier for the product */
+    productId : string;
+    /** Quantity of the product in this order */
+    quantity : number;
 }
