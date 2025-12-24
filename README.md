@@ -1,6 +1,6 @@
-# 💧 LiquidShop
+# 🛍️ WebShop
 
-LiquidShop is a modern, high-performance e-commerce platform built with **React 18**, **TypeScript**, and **Vite**. It features a stunning glassmorphism-inspired UI and follows the **Feature-Sliced Design (FSD)** architecture for maximum scalability and maintainability.
+WebShop is a modern, high-performance e-commerce platform built with **React 18**, **TypeScript**, and **Vite**. It features a stunning glassmorphism-inspired UI and follows the **Feature-Sliced Design (FSD)** architecture for maximum scalability and maintainability.
 
 ---
 
