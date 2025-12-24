@@ -25,8 +25,13 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: google-github-actions/release-please-action@e4dc86ba9405554aeba3c6bb2d169500e7d3b4ee # v4.1.1
+      - name: Run Release Please
         id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          config-file: .release-please-config.json
+          manifest-file: .release-please-manifest.json
+          token: ${{ secrets.RELEASE_TOKEN }}
 
   build:
     if: needs.release.outputs.release_created
@@ -69,7 +74,7 @@ jobs:
         run: |
           gh release upload ${{ needs.release.outputs.tag_name }} sbom.json
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
 
       - uses: actions/attest-build-provenance@v2
         with:
