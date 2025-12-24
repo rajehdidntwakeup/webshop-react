@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.0.2](https://github.com/rajehdidntwakeup/webshop-react/compare/v1.0.1...v1.0.2) (2025-12-24)
+
+
+### Refactors
+
+* clean up imports and streamline type usage across components ([b1fc764](https://github.com/rajehdidntwakeup/webshop-react/commit/b1fc7648455c7fe619f08f457a37b29cb057c552))
+* remove `CreateItem`-related components, data, and tests ([6a3b66f](https://github.com/rajehdidntwakeup/webshop-react/commit/6a3b66f9ddec95ae0aa7b5a89bd58c4e8375e65e))
+* remove `CreateItem`-related components, data, and tests and update `OrdersList` ([b26df20](https://github.com/rajehdidntwakeup/webshop-react/commit/b26df20ba3f2dea91d2f77912baef5fe1ec5bbb4))
+* remove redundant parameter from `getProductById` assertions ([9f73229](https://github.com/rajehdidntwakeup/webshop-react/commit/9f732298046d2769e844c474967275991c8e4352))
+
+
+### Miscellaneous Chores
+
+* integrate Prettier with ESLint and update dependencies ([3b0e806](https://github.com/rajehdidntwakeup/webshop-react/commit/3b0e806f47f5659a7b0d4e89a60c6206e2e083ba))
+* **release:** configure automated release process with release-please ([d381fdb](https://github.com/rajehdidntwakeup/webshop-react/commit/d381fdb233acd71b213416bd3f1f82e7fcf08930))
+* **release:** configure automated release process with release-please ([9f14f12](https://github.com/rajehdidntwakeup/webshop-react/commit/9f14f120f1ed576af3dddabbc8934a52ff81b6f0))
+* **release:** release 1.0.0 ([641bc49](https://github.com/rajehdidntwakeup/webshop-react/commit/641bc4930bf04a027c6fb28f3c1a3fc0097cf6a6))
+* **release:** release 1.0.0 ([5a794d3](https://github.com/rajehdidntwakeup/webshop-react/commit/5a794d3f5da67c23f8393638e63924a24b2dedea))
+* **release:** release 1.0.0 ([b41b277](https://github.com/rajehdidntwakeup/webshop-react/commit/b41b277e11612d5bd6559e5a79f15836e1356a36))
+* **release:** release 1.0.0 ([135eebe](https://github.com/rajehdidntwakeup/webshop-react/commit/135eebe0cb210ab2198c6861c20cd7a5091472ac))
+* **release:** release 1.0.1 ([1a6ec36](https://github.com/rajehdidntwakeup/webshop-react/commit/1a6ec36059a469bb4eaace54e1dd83e5f00ec437))
+* **release:** release 1.0.1 ([223677c](https://github.com/rajehdidntwakeup/webshop-react/commit/223677ca59ffded57215f9a6c9f9cea23267a726))
+* update page title and simplify GitHub Actions workflow triggers ([a1569e4](https://github.com/rajehdidntwakeup/webshop-react/commit/a1569e40c3f82cf9d0eb0ad064709f6c2c5d57c6))
+* update release workflow to use `RELEASE_PLEASE_TOKEN` ([1cffb22](https://github.com/rajehdidntwakeup/webshop-react/commit/1cffb2286353b9ec7019426389cae7f3ac4f371a))
+
+
+### Documentation
+
+* overhaul README with detailed project info and add MIT license ([09cb671](https://github.com/rajehdidntwakeup/webshop-react/commit/09cb671e325796fca0e4ab249e4a27c5f5939dd0))
+* rebrand project name in README to WebShop ([96a4f38](https://github.com/rajehdidntwakeup/webshop-react/commit/96a4f3891c47f2f7d3f61053433f95e9d329d40d))
+* update issue templates and enhance README structure ([5c262e2](https://github.com/rajehdidntwakeup/webshop-react/commit/5c262e2c854513caf7fb157d74ec5d14777db2ea))
+
 ## [1.0.1](https://github.com/rajehdidntwakeup/webshop-react/compare/v1.0.0...v1.0.1) (2025-12-22)
 
 
